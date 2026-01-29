@@ -1,3 +1,4 @@
+#include "ProjectCreationContext.h"
 /*
     Scan Tailor - Interactive post-processing tool for scanned pages.
     Copyright (C) 2007-2009  Joseph Artsimovich <joseph_a@mail.ru>
@@ -16,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "ProjectCreationContext.h.moc"
 #include "ProjectFilesDialog.h"
 #include "FixDpiDialog.h"
 #include "ImageFileInfo.h"

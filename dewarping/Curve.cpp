@@ -17,6 +17,7 @@
 */
 
 #include "Curve.h"
+#include <QIODevice>
 #include "XmlMarshaller.h"
 #include "XmlUnmarshaller.h"
 #include "VecNT.h"

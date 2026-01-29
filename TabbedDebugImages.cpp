@@ -1,3 +1,4 @@
+#include "TabbedDebugImages.h"
 /*
 	Scan Tailor - Interactive post-processing tool for scanned pages.
 	Copyright (C)  Joseph Artsimovich <joseph_a@mail.ru>
@@ -16,7 +17,6 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TabbedDebugImages.h.moc"
 #include "DebugImageView.h"
 
 TabbedDebugImages::TabbedDebugImages(QWidget* parent)

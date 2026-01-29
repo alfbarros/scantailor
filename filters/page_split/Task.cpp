@@ -55,7 +55,7 @@ class Task::UiUpdater : public FilterResult
 public:
 	UiUpdater(IntrusivePtr<Filter> const& filter,
 		IntrusivePtr<ProjectPages> const& pages,
-		std::auto_ptr<DebugImages> dbg_img,
+		std::unique_ptr<DebugImages> dbg_img,
 		QImage const& image, PageInfo const& page_info,
 		ImageTransformation const& xform,
 		OptionsWidget::UiData const& ui_data,
@@ -67,7 +67,7 @@ public:
 private:
 	IntrusivePtr<Filter> m_ptrFilter;
 	IntrusivePtr<ProjectPages> m_ptrPages;
-	std::auto_ptr<DebugImages> m_ptrDbg;
+	std::unique_ptr<DebugImages> m_ptrDbg;
 	QImage m_image;
 	QImage m_downscaledImage;
 	PageInfo m_pageInfo;
@@ -213,7 +213,7 @@ Task::process(TaskStatus const& status, FilterData const& data)
 Task::UiUpdater::UiUpdater(
 	IntrusivePtr<Filter> const& filter,
 	IntrusivePtr<ProjectPages> const& pages,
-	std::auto_ptr<DebugImages> dbg_img,
+	std::unique_ptr<DebugImages> dbg_img,
 	QImage const& image, PageInfo const& page_info,
 	ImageTransformation const& xform,
 	OptionsWidget::UiData const& ui_data,

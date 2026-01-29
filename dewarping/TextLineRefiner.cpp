@@ -301,7 +301,7 @@ TextLineRefiner::calcFrenetFrames(
 			next_segment /= next_segment_len;
 		}
 
-		Vec2f tangent_vec(0.5 * (prev_segment + next_segment));
+		Vec2f tangent_vec(0.5f * (prev_segment + next_segment));
 		float const len = sqrt(tangent_vec.squaredNorm());
 		if (len > std::numeric_limits<float>::epsilon()) {
 			tangent_vec /= len;
@@ -832,7 +832,7 @@ TextLineRefiner::Optimizer::calcBendingEnergy(
 		return 1000.0f; // Penalty for moving too close to another node.
 	}
 
-	Vec2f const bend_vec(vec / vec_len - prev_vec / prev_vec_len);
+	Vec2f const bend_vec(vec * (1.0f / vec_len) - prev_vec * (1.0f / prev_vec_len));
 	return m_bendingWeight * bend_vec.squaredNorm();
 }
 

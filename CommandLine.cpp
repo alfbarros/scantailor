@@ -24,7 +24,7 @@
 
 #include <QDir>
 #include <QMap>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 
 #include "Dpi.h"
@@ -55,11 +55,11 @@ CommandLine::set(CommandLine const& cl)
 void
 CommandLine::parseCli(QStringList const& argv)
 {
-	QRegExp rx("^--([^=]+)=(.*)$");
-	QRegExp rx_switch("^--([^=]+)$");
-	QRegExp rx_short("^-([^=]+)=(.*)$");
-	QRegExp rx_short_switch("^-([^=]+)$");
-	QRegExp rx_project(".*\\.ScanTailor$", Qt::CaseInsensitive);
+	QRegularExpression rx("^--([^=]+)=(.*)$");
+	QRegularExpression rx_switch("^--([^=]+)$");
+	QRegularExpression rx_short("^-([^=]+)=(.*)$");
+	QRegularExpression rx_short_switch("^-([^=]+)$");
+	QRegularExpression rx_project(".*\\.ScanTailor$", QRegularExpression::CaseInsensitiveOption);
 
 	QMap<QString, QString> shortMap;
 	shortMap["h"] = "help";
@@ -72,23 +72,24 @@ CommandLine::parseCli(QStringList const& argv)
 	// skip first argument (scantailor)
 	for (int i=1; i<argv.size(); i++) {
 #ifdef DEBUG_CLI
-	std::cout << "arg[" << i << "]=" << argv[i].toAscii().constData() << "\n";
+	std::cout << "arg[" << i << "]=" << argv[i].toLatin1().constData() << "\n";
 #endif
-		if (rx.exactMatch(argv[i])) {
+		QRegularExpressionMatch match;
+		if ((match = rx.match(argv[i])).hasMatch()) {
 			// option with a value
-			m_options[rx.cap(1)] = rx.cap(2);
-		} else if (rx_switch.exactMatch(argv[i])) {
+			m_options[match.captured(1)] = match.captured(2);
+		} else if ((match = rx_switch.match(argv[i])).hasMatch()) {
 			// option without value
-			m_options[rx_switch.cap(1)] = "true";
-		} else if (rx_short.exactMatch(argv[i])) {
+			m_options[match.captured(1)] = "true";
+		} else if ((match = rx_short.match(argv[i])).hasMatch()) {
 			// option with a value
-			QString key = shortMap[rx_short.cap(1)];
-			m_options[key] = rx_short.cap(2);
-		} else if (rx_short_switch.exactMatch(argv[i])) {
-			QString key = shortMap[rx_short_switch.cap(1)];
+			QString key = shortMap[match.captured(1)];
+			m_options[key] = match.captured(2);
+		} else if ((match = rx_short_switch.match(argv[i])).hasMatch()) {
+			QString key = shortMap[match.captured(1)];
 			if (key == "") continue;
 			m_options[key] = "true";
-		} else if (rx_project.exactMatch(argv[i])) {
+		} else if ((match = rx_project.match(argv[i])).hasMatch()) {
 			// project file
 			CommandLine::m_projectFile = argv[i];
 		} else {
@@ -127,7 +128,7 @@ CommandLine::parseCli(QStringList const& argv)
 
 #ifdef DEBUG_CLI
 	QStringList params = m_options.keys();
-	for (int i=0; i<params.size(); i++) { std::cout << params[i].toAscii().constData() << "=" << m_options.value(params[i]).toAscii().constData() << "\n"; }
+	for (int i=0; i<params.size(); i++) { std::cout << params[i].toLatin1().constData() << "=" << m_options.value(params[i]).toLatin1().constData() << "\n"; }
 	std::cout << "Images: " << CommandLine::m_images.size() << "\n";
 #endif
 }
@@ -378,13 +379,14 @@ CommandLine::fetchContentRect()
 	if (!hasContentRect())
 		return QRectF();
 
-	QRegExp rx("([\\d\\.]+)x([\\d\\.]+):([\\d\\.]+)x([\\d\\.]+)");
+	QRegularExpression rx("([\\d\\.]+)x([\\d\\.]+):([\\d\\.]+)x([\\d\\.]+)");
+	QRegularExpressionMatch match = rx.match(m_options.value("content-box"));
 
-	if (rx.exactMatch(m_options.value("content-box"))) {
-		return QRectF(rx.cap(1).toFloat(), rx.cap(2).toFloat(), rx.cap(3).toFloat(), rx.cap(4).toFloat());
+	if (match.hasMatch()) {
+		return QRectF(match.captured(1).toFloat(), match.captured(2).toFloat(), match.captured(3).toFloat(), match.captured(4).toFloat());
 	}
 
-	std::cout << "invalid --content-box=" << m_options.value("content-box").toAscii().constData() << "\n";
+	std::cout << "invalid --content-box=" << m_options.value("content-box").toLatin1().constData() << "\n";
 	exit(1);
 }
 
@@ -405,7 +407,7 @@ CommandLine::fetchOrientation()
 	} else if (cli_orient == "upsidedown") {
 		orient = UPSIDEDOWN;
 	} else {
-		std::cout << "Wrong orientation " << m_options.value("orientation").toAscii().constData() << "\n";
+		std::cout << "Wrong orientation " << m_options.value("orientation").toLatin1().constData() << "\n";
 		exit(1);
 	}
 

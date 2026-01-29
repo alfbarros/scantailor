@@ -129,7 +129,7 @@ PixmapRenderer::drawPixmap(
 		);
 		dst_bounding_rect = dst_bounding_rect.intersected(clip_rect);
 	}
-	QRect const dst_rect(dst_rect_fitting.intersect(dst_bounding_rect));
+	QRect const dst_rect(dst_rect_fitting.intersects(dst_bounding_rect));
 	
 	// Note that XRenderComposite() expects destination coordinates
 	// everywhere, even for source picture origin.

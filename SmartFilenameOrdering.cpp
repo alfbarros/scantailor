@@ -18,7 +18,7 @@
 
 #include "SmartFilenameOrdering.h"
 #include <QFileInfo>
-#include <QRegExp>
+
 #include <QString>
 
 bool

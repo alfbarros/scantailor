@@ -1,3 +1,4 @@
+#include "NewOpenProjectPanel.h"
 /*
     Scan Tailor - Interactive post-processing tool for scanned pages.
     Copyright (C) 2007-2009  Joseph Artsimovich <joseph_a@mail.ru>
@@ -16,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "NewOpenProjectPanel.h.moc"
 #include "RecentProjects.h"
 #include "Utils.h"
 #ifndef Q_MOC_RUN

@@ -17,7 +17,6 @@
 */
 
 #include "ChangeDewarpingDialog.h"
-#include "ChangeDewarpingDialog.h.moc"
 #include "PageSelectionAccessor.h"
 #include "QtSignalForwarder.h"
 #ifndef Q_MOC_RUN
