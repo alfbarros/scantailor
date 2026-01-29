@@ -1,3 +1,4 @@
+#include "FilterOptionsWidget.h"
 /*
     Scan Tailor - Interactive post-processing tool for scanned pages.
     Copyright (C) 2007-2008  Joseph Artsimovich <joseph_a@mail.ru>
@@ -16,4 +17,3 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "FilterOptionsWidget.h.moc"

@@ -30,17 +30,17 @@ SET(
 	MultipartFormData.cpp MultipartFormData.h
 )
 SOURCE_GROUP("Sources" FILES ${crash_reporter_sources})
-QT4_AUTOMOC(${crash_reporter_sources})
+
 
 FILE(GLOB ui_files "ui/*.ui")
 SOURCE_GROUP("Ui Files" FILES ${ui_files})
-QT4_WRAP_UI(ui_sources ${ui_files})
-SET_SOURCE_FILES_PROPERTIES(${ui_sources} PROPERTIES GENERATED TRUE)
+
+SET_SOURCE_FILES_PROPERTIES(${ui_files} PROPERTIES GENERATED TRUE)
 ADD_SUBDIRECTORY(ui)
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_BINARY_DIR}") # for ui files
 
 IF(ENABLE_CRASH_REPORTER)
-	ADD_EXECUTABLE(CrashReporter WIN32 ${crash_reporter_sources} ${ui_sources})
+	ADD_EXECUTABLE(CrashReporter WIN32 ${crash_reporter_sources} ${ui_files})
 
 	TARGET_LINK_LIBRARIES(
 		CrashReporter ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTNETWORK_LIBRARY}
@@ -49,4 +49,7 @@ IF(ENABLE_CRASH_REPORTER)
 	)
 ENDIF(ENABLE_CRASH_REPORTER)
 
-TRANSLATION_SOURCES(crashreporter ${crash_reporter_sources} ${ui_files})
+
+TARGET_LINK_LIBRARIES(crash_handler PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Xml)
+SET_TARGET_PROPERTIES(crash_handler PROPERTIES AUTOMOC ON AUTOUIC ON)
+SET_TARGET_PROPERTIES(crash_handler PROPERTIES AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui")

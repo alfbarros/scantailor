@@ -1,3 +1,4 @@
+#include "EditableZoneSet.h"
 /*
 
 	Scan Tailor - Interactive post-processing tool for scanned pages.
@@ -17,7 +18,6 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "EditableZoneSet.h.moc"
 
 EditableZoneSet::EditableZoneSet()
 {

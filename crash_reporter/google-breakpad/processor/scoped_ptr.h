@@ -12,13 +12,13 @@
 //  scoped_ptr mimics a built-in pointer except that it guarantees deletion
 //  of the object pointed to, either on destruction of the scoped_ptr or via
 //  an explicit reset(). scoped_ptr is a simple solution for simple needs;
-//  use shared_ptr or std::auto_ptr if your needs are more complex.
+//  use shared_ptr or std::unique_ptr if your needs are more complex.
 
 //  *** NOTE ***
-//  If your scoped_ptr is a class member of class FOO pointing to a 
-//  forward declared type BAR (as shown below), then you MUST use a non-inlined 
+//  If your scoped_ptr is a class member of class FOO pointing to a
+//  forward declared type BAR (as shown below), then you MUST use a non-inlined
 //  version of the destructor.  The destructor of a scoped_ptr (called from
-//  FOO's destructor) must have a complete definition of BAR in order to 
+//  FOO's destructor) must have a complete definition of BAR in order to
 //  destroy it.  Example:
 //
 //  -- foo.h --
@@ -28,7 +28,7 @@
 //   public:
 //    FOO();
 //    ~FOO();  // Required for sources that instantiate class FOO to compile!
-//    
+//
 //   private:
 //    scoped_ptr<BAR> bar_;
 //  };

@@ -17,8 +17,11 @@ SET(
 )
 
 SOURCE_GROUP(Sources FILES ${sources})
-QT4_AUTOMOC(${sources})
+
 
 ADD_LIBRARY(interaction STATIC ${sources})
 
-TRANSLATION_SOURCES(scantailor ${sources})
+
+TARGET_LINK_LIBRARIES(interaction PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Xml Qt6::OpenGLWidgets)
+SET_TARGET_PROPERTIES(interaction PROPERTIES AUTOMOC ON AUTOUIC ON)
+SET_TARGET_PROPERTIES(interaction PROPERTIES AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui")

@@ -17,6 +17,7 @@
 */
 
 #include "DetectVertContentBounds.h"
+#include <cstdlib>
 #include "DebugImages.h"
 #include "VecNT.h"
 #include "SidesOfLine.h"
@@ -304,7 +305,7 @@ SequentialColumnProcessor::approximateWithLine(std::vector<Segment>* dbg_segment
 	// Run RANSAC on the segments.
 	
 	RansacAlgo ransac(segments);
-	qsrand(0); // Repeatablity is important.
+	srand(0); // Repeatablity is important.
 
 	// We want to make sure we do pick a few segments closest
 	// to the edge, so let's sort segments appropriately
@@ -322,7 +323,7 @@ SequentialColumnProcessor::approximateWithLine(std::vector<Segment>* dbg_segment
 	// Continue with random samples.
 	int const ransac_iterations = segments.empty() ? 0 : 200;
 	for (int i = 0; i < ransac_iterations; ++i) {
-		ransac.buildAndAssessModel(segments[qrand() % segments.size()]);
+		ransac.buildAndAssessModel(segments[rand() % segments.size()]);
 	}
 
 	if (ransac.bestModel().segments.empty()) {
@@ -357,7 +358,7 @@ SequentialColumnProcessor::interpolateSegments(std::vector<Segment> const& segme
 	assert(accum_weight != 0);
 	accum_vec /= accum_weight;
 
-	QLineF line(m_path.front(), m_path.front() + accum_vec);
+	QLineF line(QPointF(m_path.front()), QPointF(m_path.front()) + QPointF(accum_vec[0], accum_vec[1]));
 	Vec2d normal(-accum_vec[1], accum_vec[0]);
 	if ((m_leftOrRight == RIGHT) != (normal[0] < 0)) {
 		normal = -normal;
@@ -366,9 +367,10 @@ SequentialColumnProcessor::interpolateSegments(std::vector<Segment> const& segme
 	
 	// Now find the vertex in m_path through which our line should pass.
 	BOOST_FOREACH(QPoint const& pt, m_path) {
-		if (normal.dot(pt - line.p1()) < 0) {
-			line.setP1(pt);
-			line.setP2(line.p1() + accum_vec);
+		QPointF const diff = QPointF(pt) - line.p1();
+		if (normal.dot(Vec2d(diff.x(), diff.y())) < 0) {
+			line.setP1(QPointF(pt));
+			line.setP2(line.p1() + QPointF(accum_vec[0], accum_vec[1]));
 		}
 	}
 
@@ -397,7 +399,7 @@ SequentialColumnProcessor::visualizeEnvelope(QImage const& background)
 	QRectF rect(0, 0, 9, 9);
 
 	BOOST_FOREACH(QPoint pt, m_path) {
-		rect.moveCenter(pt + QPointF(0.5, 0.5));
+		rect.moveCenter(QPointF(pt) + QPointF(0.5, 0.5));
 		painter.drawEllipse(rect);
 	}
 
@@ -467,8 +469,8 @@ QLineF extendLine(QLineF const& line, int height)
 	QLineF const top_line(QPointF(0, 0), QPointF(1, 0));
 	QLineF const bottom_line(QPointF(0, height), QPointF(1, height));
 	
-	line.intersect(top_line, &top_intersection);
-	line.intersect(bottom_line, &bottom_intersection);
+	line.intersects(top_line, &top_intersection);
+	line.intersects(bottom_line, &bottom_intersection);
 
 	return QLineF(top_intersection, bottom_intersection);
 }

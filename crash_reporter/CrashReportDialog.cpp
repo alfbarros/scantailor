@@ -17,7 +17,6 @@
 */
 
 #include "CrashReportDialog.h"
-#include "CrashReportDialog.h.moc"
 #include "MultipartFormData.h"
 #include "version.h"
 #include <QDir>

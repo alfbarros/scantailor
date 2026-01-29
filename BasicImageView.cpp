@@ -1,3 +1,4 @@
+#include "BasicImageView.h"
 /*
     Scan Tailor - Interactive post-processing tool for scanned pages.
     Copyright (C)  Joseph Artsimovich <joseph.artsimovich@gmail.com>
@@ -16,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "BasicImageView.h.moc"
 #include "ImageTransformation.h"
 #include "ImagePresentation.h"
 #include "Dpm.h"

@@ -31,4 +31,8 @@ SET(
 )
 
 ADD_EXECUTABLE(imageproc_tests ${sources})
-TARGET_LINK_LIBRARIES(imageproc_tests ${libs})
+TARGET_LINK_LIBRARIES(imageproc_tests PUBLIC ${libs})
+
+TARGET_LINK_LIBRARIES(imageproc_tests PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Xml)
+SET_TARGET_PROPERTIES(imageproc_tests PROPERTIES AUTOMOC ON AUTOUIC ON)
+SET_TARGET_PROPERTIES(imageproc_tests PROPERTIES AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui")
